@@ -37,7 +37,5 @@ server:
     key-store-password: r2u36ojl
     key-store-type: PKCS12
 
-
-
 #server:
 #  port: 8080
