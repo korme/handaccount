@@ -66,20 +66,27 @@ public class UsersController {
      */
     @Transactional
     @RequestMapping(value = "/login")
-    public ResponseEntity insertUser(RequestUser data){
+    public ResponseEntity insertUser(RequestUser data) throws InterruptedException {
         String openid  = wxApi.getOpenid(data.getCode());
         if(openid==null||openid==""){
             return new ResponseEntity(RespCode.WX_ERROR);
         }
         //做查询操作 看是否重复
         Integer uniqueNumber=userMapper.selectUniqueNumberByOpenId(openid);
-        if(uniqueNumber!=null)
+        if(uniqueNumber!=null){
             return new ResponseEntity(RespCode.SUCCESS,uniqueNumber);
+        }
+
         UserModel user=new UserModel(data.getNickname(),openid,timeUtils.getNowTime());
         userMapper.insertUser(user);
         user.setUniqueNumber(userIdToUniqueNumber.getUniqueNumber(user.getUserId()));
         userMapper.insertUniqueNumber(user.getUniqueNumber(),user.getUserId());
         return new ResponseEntity(RespCode.SUCCESS,user.getUniqueNumber());
+    }
+
+    @RequestMapping(value = "run")
+    public ResponseEntity insertUser(){
+        return new ResponseEntity(RespCode.SUCCESS,"isRunning");
     }
 
 }

@@ -62,8 +62,9 @@ public interface ApplicationMapper {
     @Select("select a.applicationUniqueNumber,a.audiorUniqueNumber,a.applyTime,a.remark,a.mount,a.isPassed," +
             "a.currentBalance,a.userName,a.image,c.accountId,c.cateName,c.balance,c.cateTotal from application as a " +
             "left JOIN category as c ON a.cateId=c.cateId where a.cateId=#{cateId} and " +
-            "(a.isPassed=4 or a.isPassed=3) and c.isDeleted=0 order by a.applyTime desc")
+            "(a.isPassed=4 or a.isPassed=2) and c.isDeleted=0 order by a.applyTime desc")
     List<Map<String,Object>> selectApplicationByCateId(@Param("cateId")int cateId);
+
 
 
     @Select("SELECT a.applicationUniqueNumber, a.applyTime, a.mount, a.currentBalance, " +
