@@ -1,6 +1,7 @@
 package xyz.korme.handaccount.service.fileUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.korme.handaccount.service.uuidUTil.UuidUtil;
@@ -14,6 +15,8 @@ import java.io.InputStream;
 public class FileUtilMPL implements FileUtil {
     @Autowired
     UuidUtil uuidUtil;
+    @Value("${domain}")
+    String domain;
     @Override
     public String upload(MultipartFile file, String path, String fileName) {
         InputStream is;
@@ -52,7 +55,7 @@ public class FileUtilMPL implements FileUtil {
             }
 
             file.transferTo(dest);
-            return "https://www.korme.xyz/image/"+fileName;
+            return domain+"/image/"+fileName;
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
